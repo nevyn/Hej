@@ -34,4 +34,5 @@ typedef enum {
 -(BNZVector*)intersectionPointWithLine:(BNZLine*)other;
 
 -(CGFloat)distanceToPoint:(BNZVector*)point;
+-(CGFloat)length;
 @end

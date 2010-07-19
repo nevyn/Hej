@@ -106,10 +106,14 @@ static double sin1(double f) {
 - (void)mouseDragged:(NSEvent *)theEvent;
 {
 	drawingLine = [BNZLine lineAt:drawingLine.start to:VecCG([self convertPoint:theEvent.locationInWindow fromView:nil])];
+  if(drawingLine.length > 20) {
+	  [walls addObject:drawingLine];
+		drawingLine = [BNZLine lineAt:VecCG([self convertPoint:theEvent.locationInWindow fromView:nil]) to:VecCG([self convertPoint:theEvent.locationInWindow fromView:nil])];
+  }
+
 }
 - (void)mouseUp:(NSEvent *)theEvent;
 {
-	drawingLine = [BNZLine lineAt:drawingLine.start to:VecCG([self convertPoint:theEvent.locationInWindow fromView:nil])];
   [walls addObject:drawingLine];
   drawingLine = nil;
 }

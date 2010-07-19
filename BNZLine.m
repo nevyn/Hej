@@ -86,6 +86,10 @@
     
     return distance;
 }
+-(CGFloat)length;
+{
+	return [[self.start differenceFromVector:self.end] length];
+}
 
 -(BNZVector*)start; { return start; }
 -(BNZVector*)end; { return end; }
