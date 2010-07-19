@@ -76,6 +76,12 @@ static double sin1(double f) {
     NSDate *now = [NSDate date];
     NSTimeInterval delta = [now timeIntervalSinceDate:lastUpdate];
     
+    if(!NSPointInRect(player.p.asPoint, self.bounds)) {
+    	BNZVector *mid = VecXY(self.bounds.size.width/2, self.bounds.size.height/2);
+    	BNZVector *towardMid = [mid differenceFromVector:player.p];
+      player.v = towardMid;
+    }
+    
     [player update:delta];
     for(Bomb *aBomb in bombs.copy) {
       [aBomb update:delta];
