@@ -100,7 +100,7 @@ static double sin1(double f) {
             p1.lifetime = p2.lifetime = p3.lifetime = 0.8;
             p1.constantRotation = p2.constantRotation = p3.constantRotation = YES;
             p1.linearMovement = p2.linearMovement = p3.linearMovement = YES;
-            p1.rv = p2.rv = p3.rv = frand()*20.;
+            p1.rv = p2.rv = p3.rv = frand()*40. - 20.;
             p1.v = [BNZVector vectorX:(frand()*200)-100 y:(frand()*200)-100];
             p2.v = [BNZVector vectorX:(frand()*200)-100 y:(frand()*200)-100];
             p3.v = [BNZVector vectorX:(frand()*200)-100 y:(frand()*200)-100];
