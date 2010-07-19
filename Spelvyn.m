@@ -34,6 +34,24 @@ static double sin1(double f) {
 }
 @end
 
+@implementation Bomb
+@synthesize countdown;
+-(id)initWithTime:(float)time;
+{
+  if(![super init]) return nil;
+	countdown = time;
+  return self;
+}
+
+-(void)update:(NSTimeInterval)delta {
+  countdown -= delta;
+  [super update:delta];
+}
+
+@end
+
+
+
 
 @implementation Spelvyn
 
@@ -47,7 +65,17 @@ static double sin1(double f) {
   	[self setNeedsDisplay:YES];
     NSDate *now = [NSDate date];
     NSTimeInterval delta = [now timeIntervalSinceDate:lastUpdate];
+    
     [player update:delta];
+    for(Bomb *aBomb in bombs.copy) {
+      [aBomb update:delta];
+      if(aBomb.countdown <= 0) {
+        // Explode
+        [bombs removeObject:[[aBomb retain] autorelease]];
+        
+      }
+    }
+    
     lastUpdate = now;
     
     energy = MIN(500, energy+= delta*60);
@@ -58,6 +86,8 @@ static double sin1(double f) {
   walls = $marray(
   	
   );
+  
+  bombs = $marray();
   
   player = [Entity new];
   player.p = VecXY(100,100);
@@ -112,6 +142,17 @@ static double sin1(double f) {
   [plShape transformUsingAffineTransform:r];
   [plShape fill];
 
+  for(Bomb *aBomb in bombs) {
+    [[NSColor colorWithCalibratedRed:1. green:aBomb.countdown blue:aBomb.countdown alpha:1.] set];
+    NSBezierPath *bomb = [NSBezierPath bezierPathWithOvalInRect:CGRectMake(-5., -5., 10., 10.)];
+    NSAffineTransform *t = [NSAffineTransform transform];
+    [t translateXBy:aBomb.p.x yBy:aBomb.p.y];
+    [t scaleBy:aBomb.countdown];
+    [bomb transformUsingAffineTransform:t];
+    [bomb fill];
+  }
+  
+  
   
 }
 
@@ -156,6 +197,15 @@ static double sin1(double f) {
 	return YES;
 }
 
+
+-(void)layBomb {
+  NSLog(@"Bomb!");
+  Bomb *bomb = [[Bomb alloc] initWithTime:1.];
+  bomb.p = [BNZVector vectorX:player.p.x y:player.p.y];
+	[bombs addObject:bomb];
+}
+   
+   
 -(void)setActionVector;
 {
 	//actionVector.width = keys[Leftkey] ? -1 : (keys[Rightkey] ? 1 : 0);
@@ -172,7 +222,9 @@ static double sin1(double f) {
 	setkeys(@"d", Rightkey, YES);
 	setkeys(@"w", Upkey, YES);
 	setkeys(@"s", Downkey, YES);
-
+  
+  if(theEvent.keyCode == 0x31) [self layBomb];
+  
 	[self setActionVector];
 }
 - (void)keyUp:(NSEvent *)theEvent;

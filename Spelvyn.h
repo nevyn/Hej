@@ -33,6 +33,13 @@ enum {
 @end
 
 
+@interface Bomb : Entity {
+	float countdown;
+}
+@property float countdown;
+-(id)initWithTime:(float)time;
+@end
+
 
 @interface Spelvyn : NSView {
 	NSTimer *timer;
@@ -44,6 +51,7 @@ enum {
   Entity *player;
   float energy;
   IBOutlet NSLevelIndicator *energyBar;
+  NSMutableArray *bombs;
 }
 
 @end
