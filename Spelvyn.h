@@ -22,6 +22,12 @@ enum {
 {
   BNZVector *v, *a, *p;
  	float rv, ra, r;
+  
+  BOOL  constantRotation;
+  BOOL  linearMovement;
+  
+  BOOL  temporary;
+  float lifetime;
 }
 @property (retain) BNZVector *v;
 @property (retain) BNZVector *a;
@@ -29,14 +35,20 @@ enum {
 @property float rv;
 @property float ra;
 @property float r;
+@property BOOL constantRotation;
+@property BOOL linearMovement;
+@property BOOL temporary;
+@property float lifetime;
 -(void)update:(NSTimeInterval)delta;
 @end
 
 
 @interface Bomb : Entity {
 	float countdown;
+  int   stage;
 }
 @property float countdown;
+@property int stage;
 -(id)initWithTime:(float)time;
 @end
 
@@ -52,6 +64,7 @@ enum {
   float energy;
   IBOutlet NSLevelIndicator *energyBar;
   NSMutableArray *bombs;
+  NSMutableArray *wallPieces;
 }
 
 @end

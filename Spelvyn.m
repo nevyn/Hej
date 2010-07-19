@@ -18,6 +18,8 @@ static double sin1(double f) {
 
 @implementation Entity
 @synthesize v, a, p, r, ra, rv;
+@synthesize constantRotation, linearMovement;
+@synthesize temporary, lifetime;
 -(id)init;
 {
 	self.p = [BNZVector vectorX:0 y:0];
@@ -27,24 +29,32 @@ static double sin1(double f) {
 }
 -(void)update:(NSTimeInterval)delta;
 {
-	self.v = [[self.v sumWithVector:[self.a vectorScaledBy:delta]] vectorScaledBy:0.95];
+  if(!linearMovement)
+    self.v = [[self.v sumWithVector:[self.a vectorScaledBy:delta]] vectorScaledBy:0.95];
 	self.p = [self.p sumWithVector:[self.v vectorScaledBy:delta]];
-	rv = (rv + ra*delta)*0.9;
+  if(!constantRotation)
+    rv = (rv + ra*delta)*0.9;
 	r += rv*delta;
+  
+  if(temporary)
+    lifetime -= delta;
 }
 @end
 
 @implementation Bomb
-@synthesize countdown;
+@synthesize countdown, stage;
 -(id)initWithTime:(float)time;
 {
   if(![super init]) return nil;
 	countdown = time;
+  stage = 0;
   return self;
 }
 
 -(void)update:(NSTimeInterval)delta {
   countdown -= delta;
+  if(stage==1) stage = 2;
+  if(countdown < 0.1 && stage==0) stage = 1;
   [super update:delta];
 }
 
@@ -69,6 +79,32 @@ static double sin1(double f) {
     [player update:delta];
     for(Bomb *aBomb in bombs.copy) {
       [aBomb update:delta];
+      if(aBomb.stage == 1) {
+        for(BNZLine *w in walls.copy) {
+          float dist1 = [[w.start differenceFromVector:aBomb.p] length];
+          float dist2 = [[w.end differenceFromVector:aBomb.p] length];
+          if(dist1 < 55. && dist2 < 55.) {
+            Entity *p1 = [Entity new];
+            Entity *p2 = [Entity new];
+            Entity *p3 = [Entity new];
+            p1.p = [BNZVector vectorX:w.start.x y:w.start.y];
+            p2.p = [BNZVector vectorX:w.start.x y:w.start.y];
+            p3.p = [BNZVector vectorX:w.end.x y:w.end.y];
+            p1.temporary = p2.temporary = p3.temporary = YES;
+            p1.lifetime = p2.lifetime = p3.lifetime = 0.8;
+            p1.constantRotation = p2.constantRotation = p3.constantRotation = YES;
+            p1.linearMovement = p2.linearMovement = p3.linearMovement = YES;
+            p1.rv = p2.rv = p3.rv = 20.;
+            p1.v = [BNZVector vectorX:(frand()*200)-100 y:(frand()*200)-100];
+            p2.v = [BNZVector vectorX:(frand()*200)-100 y:(frand()*200)-100];
+            p3.v = [BNZVector vectorX:(frand()*200)-100 y:(frand()*200)-100];
+            [wallPieces addObject:p1];
+            [wallPieces addObject:p2];
+            [wallPieces addObject:p3];
+            [walls removeObject:w];
+          }
+        }
+      }      
       if(aBomb.countdown <= 0) {
         // Explode
         [bombs removeObject:[[aBomb retain] autorelease]];
@@ -76,6 +112,12 @@ static double sin1(double f) {
       }
     }
     
+    for(Entity *wp in wallPieces.copy) {
+      [wp update:delta];
+      if(wp.lifetime <= 0)
+        [wallPieces removeObject:wp];
+    }
+        
     lastUpdate = now;
     
     energy = MIN(500, energy+= delta*60);
@@ -86,6 +128,7 @@ static double sin1(double f) {
   walls = $marray(
   	
   );
+  wallPieces = $marray();
   
   bombs = $marray();
   
@@ -156,6 +199,21 @@ static double sin1(double f) {
     [bomb fill];
   }
   
+  for(Entity *wp in wallPieces) {
+    [[NSColor colorWithCalibratedRed:1. green:0. blue:0. alpha:wp.lifetime/0.8] set];
+    NSBezierPath *path = [NSBezierPath bezierPath];
+    [path moveToPoint:NSMakePoint(-4,0)];
+    [path lineToPoint:NSMakePoint(4, 0)];
+    [path setLineWidth:4];
+    [path setLineCapStyle:NSRoundLineCapStyle];
+    
+    NSAffineTransform *r = [NSAffineTransform transform];
+    [r translateXBy:wp.p.x yBy:wp.p.y];
+    [r rotateByRadians:wp.r];
+    [path transformUsingAffineTransform:r];
+    
+    [path stroke];
+  }
   
   
 }
