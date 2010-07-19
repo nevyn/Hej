@@ -147,7 +147,11 @@ static double sin1(double f) {
     NSBezierPath *bomb = [NSBezierPath bezierPathWithOvalInRect:CGRectMake(-5., -5., 10., 10.)];
     NSAffineTransform *t = [NSAffineTransform transform];
     [t translateXBy:aBomb.p.x yBy:aBomb.p.y];
-    [t scaleBy:aBomb.countdown];
+    if(aBomb.countdown < 0.1) {
+      [[NSColor yellowColor] set];
+      [t scaleBy:aBomb.countdown * 100.];
+    } else
+      [t scaleBy:aBomb.countdown];
     [bomb transformUsingAffineTransform:t];
     [bomb fill];
   }
