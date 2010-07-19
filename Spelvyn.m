@@ -17,7 +17,7 @@ static double sin1(double f) {
 }
 
 @implementation Entity
-@synthesize v, a, p;
+@synthesize v, a, p, r, ra, rv;
 -(id)init;
 {
 	self.p = [BNZVector vectorX:0 y:0];
@@ -29,6 +29,8 @@ static double sin1(double f) {
 {
 	self.v = [[self.v sumWithVector:[self.a vectorScaledBy:delta]] vectorScaledBy:0.95];
 	self.p = [self.p sumWithVector:[self.v vectorScaledBy:delta]];
+	rv = (rv + ra*delta)*0.9;
+	r += rv*delta;
 }
 @end
 
@@ -58,6 +60,7 @@ static double sin1(double f) {
   );
   
   player = [Entity new];
+  player.p = VecXY(100,100);
   
   return self;
 }
@@ -96,9 +99,16 @@ static double sin1(double f) {
 	}
 
 	[[NSColor yellowColor] set];  
-  NSBezierPath *plShape = [NSBezierPath bezierPathWithRect:
-  	CGRectMake(player.p.x-50, player.p.y-50, 100, 100)	
-  ];
+  NSBezierPath *plShape = [NSBezierPath bezierPath];
+  [plShape moveToPoint:NSMakePoint(0, 30)];
+  [plShape lineToPoint:NSMakePoint(30, -30)];
+  [plShape lineToPoint:NSMakePoint(0, -10)];
+  [plShape lineToPoint:NSMakePoint(-30, -30)];
+  [plShape closePath];
+  NSAffineTransform *r = [NSAffineTransform transform];
+  [r translateXBy:player.p.x yBy:player.p.y];
+  [r rotateByRadians:player.r];
+  [plShape transformUsingAffineTransform:r];
   [plShape fill];
 
   
@@ -147,10 +157,12 @@ static double sin1(double f) {
 
 -(void)setActionVector;
 {
-	actionVector.width = keys[Leftkey] ? -1 : (keys[Rightkey] ? 1 : 0);
-	actionVector.height = keys[Downkey] ? 1 : (keys[Upkey] ? -1 : 0);
+	//actionVector.width = keys[Leftkey] ? -1 : (keys[Rightkey] ? 1 : 0);
+	actionVector.height = keys[Downkey] ? -1 : (keys[Upkey] ? 1 : 0);
+	rotationAction = keys[Leftkey] ? -1 : (keys[Rightkey] ? 1 : 0);
 	
-	player.a = VecXY(actionVector.width*950, actionVector.height*950);
+	player.a = [VecXY(actionVector.width*950, actionVector.height*950) rotateByRadians:player.r];
+	player.ra = rotationAction*M_PI*6.;
 }
 #define setkeys(keychar, keyname, value) 	if([[theEvent charactersIgnoringModifiers] rangeOfString:keychar].location != NSNotFound) keys[keyname] = value;
 - (void)keyDown:(NSEvent *)theEvent;

@@ -21,10 +21,14 @@ enum {
 @interface Entity : NSObject
 {
   BNZVector *v, *a, *p;
+ 	float rv, ra, r;
 }
 @property (retain) BNZVector *v;
 @property (retain) BNZVector *a;
 @property (retain) BNZVector *p;
+@property float rv;
+@property float ra;
+@property float r;
 -(void)update:(NSTimeInterval)delta;
 @end
 
@@ -36,6 +40,7 @@ enum {
   BNZLine *drawingLine;
   BOOL keys[ActionKeyCount];
  	CGSize actionVector;
+ 	float rotationAction;
   Entity *player;
   float energy;
   IBOutlet NSLevelIndicator *energyBar;

@@ -255,7 +255,11 @@
 -(BNZVector*)rotateByRadians:(CGFloat)rotation;
 {
     if(size != 2) @throw @"Not implemented";
-    return [self rotateByDegrees:rotation*180.0];
+    NSAffineTransform *af = [NSAffineTransform new];
+    [af rotateByRadians:rotation];
+    NSPoint p = [af transformPoint:[self asPoint]];
+    values[0] = p.x; values[1] = p.y;
+    return self;
 }
 
 -(BNZVector*)invert;
