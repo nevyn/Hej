@@ -11,7 +11,7 @@
 @implementation HejAppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-	[spelvy enterFullScreenMode:[NSScreen mainScreen] withOptions:nil];
+	//[spelvy enterFullScreenMode:[NSScreen mainScreen] withOptions:nil];
 }
 
 @end

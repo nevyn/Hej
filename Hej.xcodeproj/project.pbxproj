@@ -13,6 +13,9 @@
 		0509234911F4C3430051353C /* ExceptionUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 0509234311F4C3430051353C /* ExceptionUtils.m */; };
 		0509234A11F4C3430051353C /* Logging.m in Sources */ = {isa = PBXBuildFile; fileRef = 0509234511F4C3430051353C /* Logging.m */; };
 		0509234B11F4C3430051353C /* Test.m in Sources */ = {isa = PBXBuildFile; fileRef = 0509234711F4C3430051353C /* Test.m */; };
+		0509238811F4C65B0051353C /* BNZLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 0509238311F4C65B0051353C /* BNZLine.m */; };
+		0509238911F4C65B0051353C /* BNZVector.m in Sources */ = {isa = PBXBuildFile; fileRef = 0509238511F4C65B0051353C /* BNZVector.m */; };
+		0509238A11F4C65B0051353C /* NCCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = 0509238711F4C65B0051353C /* NCCommon.m */; };
 		1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD58140DA1D0A300B32029 /* MainMenu.xib */; };
 		256AC3DA0F4B6AC300CF3369 /* HejAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 256AC3D90F4B6AC300CF3369 /* HejAppDelegate.m */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
@@ -33,6 +36,12 @@
 		0509234511F4C3430051353C /* Logging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Logging.m; sourceTree = "<group>"; };
 		0509234611F4C3430051353C /* Test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Test.h; sourceTree = "<group>"; };
 		0509234711F4C3430051353C /* Test.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Test.m; sourceTree = "<group>"; };
+		0509238211F4C65B0051353C /* BNZLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BNZLine.h; sourceTree = "<group>"; };
+		0509238311F4C65B0051353C /* BNZLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BNZLine.m; sourceTree = "<group>"; };
+		0509238411F4C65B0051353C /* BNZVector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BNZVector.h; sourceTree = "<group>"; };
+		0509238511F4C65B0051353C /* BNZVector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BNZVector.m; sourceTree = "<group>"; };
+		0509238611F4C65B0051353C /* NCCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCCommon.h; sourceTree = "<group>"; };
+		0509238711F4C65B0051353C /* NCCommon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NCCommon.m; sourceTree = "<group>"; };
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		13E42FB307B3F0F600E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
@@ -84,6 +93,12 @@
 				0509233C11F4C33E0051353C /* NSTimer+blocks.h */,
 				0509233D11F4C33E0051353C /* NSTimer+blocks.m */,
 				0509233F11F4C3430051353C /* JAUtil */,
+				0509238211F4C65B0051353C /* BNZLine.h */,
+				0509238311F4C65B0051353C /* BNZLine.m */,
+				0509238411F4C65B0051353C /* BNZVector.h */,
+				0509238511F4C65B0051353C /* BNZVector.m */,
+				0509238611F4C65B0051353C /* NCCommon.h */,
+				0509238711F4C65B0051353C /* NCCommon.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -217,6 +232,9 @@
 				0509234911F4C3430051353C /* ExceptionUtils.m in Sources */,
 				0509234A11F4C3430051353C /* Logging.m in Sources */,
 				0509234B11F4C3430051353C /* Test.m in Sources */,
+				0509238811F4C65B0051353C /* BNZLine.m in Sources */,
+				0509238911F4C65B0051353C /* BNZVector.m in Sources */,
+				0509238A11F4C65B0051353C /* NCCommon.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
