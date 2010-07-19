@@ -38,12 +38,18 @@ static double sin1(double f) {
 - (id)initWithFrame:(NSRect)frame {
   if(![super initWithFrame:frame]) return nil;
   
+  energy = 100;
+  
   __block NSDate *lastUpdate = [NSDate date];
   timer = [NSTimer tc_scheduledTimerWithTimeInterval:0.02 repeats:YES block:^(NSTimer*t) {
   	[self setNeedsDisplay:YES];
     NSDate *now = [NSDate date];
-    [player update:[now timeIntervalSinceDate:lastUpdate]];
+    NSTimeInterval delta = [now timeIntervalSinceDate:lastUpdate];
+    [player update:delta];
     lastUpdate = now;
+    
+    energy = MIN(200, energy+= delta*40);
+    energyBar.floatValue = energy;
   }];
 
   
@@ -105,16 +111,27 @@ static double sin1(double f) {
 }
 - (void)mouseDragged:(NSEvent *)theEvent;
 {
-	drawingLine = [BNZLine lineAt:drawingLine.start to:VecCG([self convertPoint:theEvent.locationInWindow fromView:nil])];
+	if(!drawingLine)
+  	drawingLine = [BNZLine lineAt:VecCG([self convertPoint:theEvent.locationInWindow fromView:nil]) to:VecCG([self convertPoint:theEvent.locationInWindow fromView:nil])];
+	else
+		drawingLine = [BNZLine lineAt:drawingLine.start to:VecCG([self convertPoint:theEvent.locationInWindow fromView:nil])];
+    
   if(drawingLine.length > 20) {
-	  [walls addObject:drawingLine];
-		drawingLine = [BNZLine lineAt:VecCG([self convertPoint:theEvent.locationInWindow fromView:nil]) to:VecCG([self convertPoint:theEvent.locationInWindow fromView:nil])];
+    if(energy > 10) {
+      energy -= 10;  
+		  [walls addObject:drawingLine];
+			drawingLine = [BNZLine lineAt:VecCG([self convertPoint:theEvent.locationInWindow fromView:nil]) to:VecCG([self convertPoint:theEvent.locationInWindow fromView:nil])];
+    } else
+    	drawingLine = nil;
   }
 
 }
 - (void)mouseUp:(NSEvent *)theEvent;
 {
-  [walls addObject:drawingLine];
+  if(energy > 10) {
+    energy -= 10;  
+ 	 [walls addObject:drawingLine];
+  }
   drawingLine = nil;
 }
 

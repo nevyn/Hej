@@ -37,6 +37,8 @@ enum {
   BOOL keys[ActionKeyCount];
  	CGSize actionVector;
   Entity *player;
+  float energy;
+  IBOutlet NSLevelIndicator *energyBar;
 }
 
 @end
