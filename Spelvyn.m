@@ -50,7 +50,7 @@ static double sin1(double f) {
     [player update:delta];
     lastUpdate = now;
     
-    energy = MIN(200, energy+= delta*40);
+    energy = MIN(500, energy+= delta*60);
     energyBar.floatValue = energy;
   }];
 
@@ -108,6 +108,7 @@ static double sin1(double f) {
   NSAffineTransform *r = [NSAffineTransform transform];
   [r translateXBy:player.p.x yBy:player.p.y];
   [r rotateByRadians:player.r];
+  [r translateXBy:0 yBy:10];
   [plShape transformUsingAffineTransform:r];
   [plShape fill];
 

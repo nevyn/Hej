@@ -1336,18 +1336,18 @@
 							<reference key="NSSuperview" ref="439893737"/>
 							<string key="NSClassName">Spelvyn</string>
 						</object>
-						<object class="NSLevelIndicator" id="1062799363">
+						<object class="NSLevelIndicator" id="979428731">
 							<reference key="NSNextResponder" ref="439893737"/>
 							<int key="NSvFlags">290</int>
 							<string key="NSFrame">{{20, 20}, {513, 16}}</string>
 							<reference key="NSSuperview" ref="439893737"/>
 							<bool key="NSEnabled">YES</bool>
-							<object class="NSLevelIndicatorCell" key="NSCell" id="576934071">
+							<object class="NSLevelIndicatorCell" key="NSCell" id="184715081">
 								<int key="NSCellFlags">130560</int>
 								<int key="NSCellFlags2">0</int>
-								<reference key="NSControlView" ref="1062799363"/>
+								<reference key="NSControlView" ref="979428731"/>
 								<double key="NSValue">100</double>
-								<double key="NSMaxValue">200</double>
+								<double key="NSMaxValue">500</double>
 								<double key="NSWarningValue">30</double>
 								<double key="NSCriticalValue">10</double>
 								<int key="NSIndicatorStyle">1</int>
@@ -2062,7 +2062,7 @@
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">energyBar</string>
 						<reference key="source" ref="774555003"/>
-						<reference key="destination" ref="1062799363"/>
+						<reference key="destination" ref="979428731"/>
 					</object>
 					<int key="connectionID">538</int>
 				</object>
@@ -2622,7 +2622,7 @@
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="774555003"/>
-							<reference ref="1062799363"/>
+							<reference ref="979428731"/>
 						</object>
 						<reference key="parent" ref="972006081"/>
 					</object>
@@ -3122,17 +3122,17 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">536</int>
-						<reference key="object" ref="1062799363"/>
+						<reference key="object" ref="979428731"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="576934071"/>
+							<reference ref="184715081"/>
 						</object>
 						<reference key="parent" ref="439893737"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">537</int>
-						<reference key="object" ref="576934071"/>
-						<reference key="parent" ref="1062799363"/>
+						<reference key="object" ref="184715081"/>
+						<reference key="parent" ref="979428731"/>
 					</object>
 				</object>
 			</object>
