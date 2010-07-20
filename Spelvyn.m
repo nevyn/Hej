@@ -82,6 +82,14 @@ static double sin1(double f) {
       player.v = towardMid;
     }
     
+    for(BNZLine *aWall in walls) {      
+      BNZVector *dist = [player.p differenceFromVector:aWall.start];
+      if(dist.length < 20) {
+        [player.v invert];
+        break;
+      }
+    }
+    
     [player update:delta];
     for(Bomb *aBomb in bombs.copy) {
       [aBomb update:delta];
@@ -157,7 +165,7 @@ static double sin1(double f) {
 	[[NSColor colorWithCalibratedWhite:woooh alpha:1] set];
   NSRectFill(dirtyRect);
   
-  [[NSColor redColor] set];
+  [[NSColor grayColor] set];
   for (BNZLine *line in walls) {
     NSBezierPath *path = [NSBezierPath bezierPath];
     [path moveToPoint:line.start.asPoint];
@@ -206,7 +214,8 @@ static double sin1(double f) {
   }
   
   for(Entity *wp in wallPieces) {
-    [[NSColor colorWithCalibratedRed:1. green:0. blue:0. alpha:wp.lifetime/0.8] set];
+    [[NSColor colorWithCalibratedWhite:0.5f alpha:wp.lifetime/0.8] set];
+    //    [[NSColor colorWithCalibratedRed:1. green:0. blue:0. alpha:wp.lifetime/0.8] set];
     NSBezierPath *path = [NSBezierPath bezierPath];
     [path moveToPoint:NSMakePoint(-4,0)];
     [path lineToPoint:NSMakePoint(4, 0)];
@@ -235,12 +244,23 @@ static double sin1(double f) {
   	drawingLine = [BNZLine lineAt:VecCG([self convertPoint:theEvent.locationInWindow fromView:nil]) to:VecCG([self convertPoint:theEvent.locationInWindow fromView:nil])];
 	else
 		drawingLine = [BNZLine lineAt:drawingLine.start to:VecCG([self convertPoint:theEvent.locationInWindow fromView:nil])];
-    
+  
   if(drawingLine.length > 20) {
+    // Cut it up into smaller pieces
+    int pieces = drawingLine.length / 20;
+    
+    BNZVector *u = [[[BNZVector vectorX:drawingLine.end.x-drawingLine.start.x y:drawingLine.end.y-drawingLine.start.y] normalize] multiplyWithScalar:20.];
+    
+    BNZLine *last = [BNZLine lineAt:drawingLine.start to:drawingLine.start];
+    for(int i=0; i<pieces; i++){
+      BNZLine *l = [BNZLine lineAt:last.end to:[last.end sumWithVector:u]];
+      [walls addObject:l];
+      last = l;
+    }
+    
     if(energy > 10) {
       energy -= 10;  
-		  [walls addObject:drawingLine];
-			drawingLine = [BNZLine lineAt:VecCG([self convertPoint:theEvent.locationInWindow fromView:nil]) to:VecCG([self convertPoint:theEvent.locationInWindow fromView:nil])];
+      drawingLine = [BNZLine lineAt:last.end to:VecCG([self convertPoint:theEvent.locationInWindow fromView:nil])];
     } else
     	drawingLine = nil;
   }
